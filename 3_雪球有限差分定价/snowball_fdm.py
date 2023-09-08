@@ -361,13 +361,13 @@ def get_snowball_fdm():
     fdm4 = DKOPFDM(S0, barrier_ko, barrier_ki, c, r, q,
                    T, sigma, S_min, S_max, M, N, method)
     v1 = fdm1.get_f_value()
-    print('Autocall定价:', v1)
+    print('Autocall期权定价:', v1)
     v2 = fdm2.get_f_value()
-    print('双障碍期权定价:', v2)
+    print('DNT期权定价:', v2)
     v3 = fdm3.get_f_value()
-    print('向上敲出看跌期权定价:', v3)
+    print('UOP期权定价:', v3)
     v4 = fdm4.get_f_value()
-    print('双障碍看跌期权定价:', v4)
+    print('DKOP期权定价:', v4)
     return v1+v2-v3+v4
 
 
