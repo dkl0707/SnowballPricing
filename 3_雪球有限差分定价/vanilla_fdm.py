@@ -1,3 +1,8 @@
+'''
+Author: dkl
+Description: FDM欧式香草期权定价
+Date: 2023-04-18 15:23:33
+'''
 import numpy as np
 from basic_fdm import BasicFDM
 from bs import euro_bs_call, euro_bs_put

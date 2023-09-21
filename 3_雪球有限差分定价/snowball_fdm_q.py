@@ -4,6 +4,7 @@ Description: FDM雪球定价
 Date: 2023-08-28 22:54:39
 '''
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
 from basic_fdm import BasicFDM
 import matplotlib.pyplot as plt
@@ -660,11 +661,9 @@ class SnowballFDM(object):
 
 
 if __name__ == '__main__':
-    fdm = SnowballFDM()
-    print('FDM下的雪球结构定价:', fdm.get_snowball_fvalue())
-    plot_3d = True
-    fdm.plot_snowball_delta(plot_3d=plot_3d)
-    fdm.plot_snowball_gamma(plot_3d=plot_3d)
-    fdm.plot_snowball_theta(plot_3d=plot_3d)
-    fdm.plot_snowball_vega(plot_3d=plot_3d)
-    fdm.plot_snowball_rho(plot_3d=plot_3d)
+    df = pd.DataFrame({'q': np.arange(0, 0.2, 0.01)})
+    for idx in tqdm(range(len(df))):
+        q = df.loc[idx, 'q']
+        fdm = SnowballFDM(q=q)
+        df.loc[idx, 'price'] = fdm.get_snowball_fvalue()
+    df.to_excel('红利率变化下的雪球价格.xlsx', index=False)

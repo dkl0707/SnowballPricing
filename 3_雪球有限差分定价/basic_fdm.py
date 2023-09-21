@@ -330,4 +330,41 @@ class BasicFDM(object):
         # 线性插值获得期权价值
         f_value = self.interpolate_f_value()
         return f_value
+
+    def get_f_delta(self, S, flag_calc_f_mat=False):
+        '''
+        Description
+        ----------
+        计算期权在t时刻和S价格位置对应的delta值
         
+        Parameters
+        ----------
+        t: 时刻
+        S: 标的价格
+        flag_calc_f_mat: 是否已经计算期权价格矩阵
+
+        Return
+        ----------
+        float. delta值
+        '''
+        if not flag_calc_f_mat:
+            self.set_boundary()
+            # 计算边界价格
+            self.calc_f_mat()
+        idx_S = int((S - self.S_min) / self.delta_S)
+        f2 = self.f_mat[0, idx_S+1]
+        f1 = self.f_mat[0, idx_S-1]
+        delta = (f2 - f1)/self.delta_S
+        return delta
+    
+    def get_f_theta(self, t, flag_calc_f_mat=False):
+        if not flag_calc_f_mat:
+            self.set_boundary()
+            # 计算边界价格
+            self.calc_f_mat()
+        idx_S = int((self.S0-self.S_min)/self.delta_S)
+        idx_T = int(t/self.delta_T)
+        f1 = self.f_mat[idx_T, idx_S]
+        f2 = self.f_mat[idx_T+1, idx_S]
+        theta = (f2 - f1)/self.delta_T
+        return theta
